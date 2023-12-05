@@ -10,10 +10,11 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - 0.0.0.0:80:80
+ #   network_mode: host
     restart: unless-stopped
     networks: 
- #     - p55_network
-      - default
+      - p55_network
+ #     - default
 
   actix-web-test:
     image: rustwebserver-actix-web-test:latest
@@ -21,14 +22,15 @@ services:
 #    build:
 #      context: .
 #      dockerfile: ./Dockerfile
-    expose:
+    ports:
       - "9101:9101"
     user: user
+#    network_mode: host
     networks: 
-#      - p55_network
-       - default
+      - p55_network
+#       - default
     restart: unless-stopped
  
-#networks:
-#  p55_network:
-#    external: true
+networks:
+  p55_network:
+    external: false
