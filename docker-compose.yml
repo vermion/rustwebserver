@@ -1,0 +1,51 @@
+version: "2.1"
+ 
+services:
+  nginx:
+    image: nginx:latest
+    container_name: p55-nginx
+    depends_on:
+      - actix-web-test
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 0.0.0.0:80:80
+    restart: unless-stopped
+    networks: 
+      - p55_network
+      - default
+ 
+  # Uncomment and configure the following service if needed
+  #p55-standalone:
+  #  build: 
+  #    context: .
+  #    dockerfile: Dockerfile
+  #  image: p55-standalone
+  #  container_name: P55-ProGuard
+  #  volumes:
+  #    - ./logs:/app/logs
+  #    - type: bind
+  #      source: ./.env
+  #      target: /app/.env
+  #  restart: always
+  #  environment:
+  #    - UID=1000
+  #    - GID=1000
+  #  networks: 
+  #    - p55_network
+ 
+  actix-web-test:
+    container_name: actix-web-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    #ports:
+    #  - "8080:8080"
+    user: user
+    networks: 
+      - p55_network
+    restart: unless-stopped
+ 
+networks:
+  p55_network:
+    external: true
