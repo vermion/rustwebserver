@@ -21,7 +21,7 @@ services:
 #    build:
 #      context: .
 #      dockerfile: ./Dockerfile
-    ports:
+    expose:
       - "9101:9101"
     user: user
     networks: 
