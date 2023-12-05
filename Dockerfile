@@ -21,12 +21,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
 && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  
 WORKDIR /app
-COPY --from=builder /app/target/release/actix-web-test /app/actix-web-app
+COPY --from=builder /app/target/release/rust_webserver_test /app/rust_webserver_test
  
 # Use tini as the entry point to manage signals
 ENTRYPOINT ["/usr/bin/tini", "--"]
  
-CMD ["/app/actix-web-app"]
+CMD ["/app/rust_webserver_test"]
 EXPOSE 8080
  
 # Set up a non-root user for better security
